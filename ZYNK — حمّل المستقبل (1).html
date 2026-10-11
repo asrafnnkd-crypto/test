@@ -1,0 +1,211 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>ZYNK — حمّل المستقبل</title>
+<style>
+@property --p{syntax:'<number>';inherits:true;initial-value:0}
+:root{--g:#00ff9d;--g2:#00c2ff;--bg:#030705;--panel:rgba(10,24,18,.55);--line:rgba(0,255,157,.18);--tx:#e8fff5;--mut:#7fa595;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}
+:root[data-theme="dark"]{--bg:#030705}
+html{scroll-padding-top:env(safe-area-inset-top,0px)}
+*{box-sizing:border-box;margin:0}
+body{background:var(--bg);color:var(--tx);font-family:Tajawal,"Segoe UI",system-ui,sans-serif;min-height:100vh;overflow-x:hidden}
+#bg{position:fixed;inset:0;width:100%;height:100%;z-index:-1}
+body:before{content:"";position:fixed;inset:0;z-index:-1;background:radial-gradient(60% 50% at 50% 0,rgba(0,255,157,.12),transparent),radial-gradient(40% 40% at 90% 90%,rgba(0,194,255,.08),transparent)}
+header{display:flex;justify-content:space-between;align-items:center;padding:20px clamp(16px,5vw,60px)}
+.logo{font:800 26px/1 system-ui;letter-spacing:.3em;direction:ltr}
+.logo i{color:var(--g);font-style:normal;text-shadow:0 0 18px var(--g)}
+.pill{border:1px solid var(--line);border-radius:99px;padding:7px 16px;font-size:13px;color:var(--mut);background:var(--panel);backdrop-filter:blur(12px)}
+.pill b{color:var(--g)}
+main{max-width:980px;margin:0 auto;padding:0 16px 60px}
+.hero{text-align:center;padding:5vh 0 28px}
+h1{font-size:clamp(34px,7vw,70px);line-height:1.15;font-weight:800}
+h1 span{background:linear-gradient(100deg,var(--g),var(--g2),var(--g));background-size:200%;-webkit-background-clip:text;background-clip:text;color:transparent;animation:flow 6s linear infinite}
+@keyframes flow{to{background-position:200%}}
+.hero p{color:var(--mut);margin:14px auto 0;max-width:560px;font-size:17px;line-height:1.7}
+.card{position:relative;border:1px solid var(--line);border-radius:26px;background:var(--panel);backdrop-filter:blur(18px);padding:clamp(16px,3vw,28px);overflow:hidden}
+.card:before{content:"";position:absolute;inset:0;background:radial-gradient(260px circle at var(--mx,50%) var(--my,0),rgba(0,255,157,.16),transparent 70%);pointer-events:none}
+.card>*{position:relative}
+.bar{display:flex;gap:10px;background:rgba(0,0,0,.45);border:1px solid var(--line);border-radius:18px;padding:8px}
+.bar:focus-within{box-shadow:0 0 0 2px rgba(0,255,157,.35),0 0 40px rgba(0,255,157,.15)}
+input{flex:1;min-width:0;background:none;border:0;outline:0;color:var(--tx);font:16px system-ui;padding:12px;direction:ltr}
+button{font-family:inherit;cursor:pointer}
+.go{background:linear-gradient(135deg,var(--g),#00d17a);color:#001a0e;border:0;border-radius:13px;padding:0 26px;font-weight:800;font-size:16px;transition:.2s}
+.go:hover{transform:translateY(-1px);box-shadow:0 8px 30px rgba(0,255,157,.4)}
+.plats{display:flex;flex-wrap:wrap;gap:8px;justify-content:center;margin-top:16px}
+.plat{font-size:13px;padding:6px 14px;border-radius:99px;border:1px solid var(--line);color:var(--mut);transition:.25s}
+.plat.on{color:#001a0e;background:var(--g);border-color:var(--g);box-shadow:0 0 20px rgba(0,255,157,.5)}
+#studio{display:none;margin-top:22px;animation:rise .6s cubic-bezier(.2,.9,.2,1)}
+#studio.show{display:block}
+@keyframes rise{from{opacity:0;transform:translateY(30px) scale(.97)}}
+.meta{display:flex;gap:16px;align-items:center;margin-bottom:18px}
+.thumb{width:84px;height:84px;border-radius:20px;flex:none;background:conic-gradient(from 200deg,#00ff9d,#00c2ff,#052,#00ff9d);box-shadow:0 0 40px rgba(0,255,157,.3);display:grid;place-items:center;font-size:30px;color:#001a0e}
+.meta h3{font-size:19px}.meta small{color:var(--mut)}
+.wave{direction:ltr;position:relative;height:150px;border-radius:18px;background:rgba(0,0,0,.4);border:1px solid var(--line);touch-action:none;cursor:ew-resize}
+canvas#wv{width:100%;height:100%;display:block}
+.times{display:grid;grid-template-columns:1fr auto 1fr;gap:12px;align-items:end;margin:16px 0;direction:ltr}
+.times label{font-size:12px;color:var(--mut);display:block;margin-bottom:6px;direction:rtl}
+.times input{width:100%;text-align:center;background:rgba(0,0,0,.45);border:1px solid var(--line);border-radius:14px;font:700 22px ui-monospace,monospace;color:var(--g)}
+.len{text-align:center;padding-bottom:12px}
+.len b{display:block;font:800 24px ui-monospace,monospace}
+.len small{color:var(--mut);font-size:12px}
+.row{display:flex;flex-wrap:wrap;gap:8px;margin:10px 0}
+.seg{display:flex;border:1px solid var(--line);border-radius:14px;overflow:hidden}
+.seg button,.q{background:none;border:0;color:var(--mut);padding:10px 18px;font-size:14px;transition:.2s}
+.seg button.on{background:var(--g);color:#001a0e;font-weight:800}
+.q{border:1px solid var(--line);border-radius:12px}
+.q.on{color:var(--g);border-color:var(--g);box-shadow:inset 0 0 18px rgba(0,255,157,.2)}
+.q em{font-style:normal;font-size:11px;opacity:.7;margin-inline-start:6px}
+.dl{display:flex;align-items:center;gap:18px;margin-top:18px;flex-wrap:wrap}
+.dlb{flex:1;min-width:220px;height:62px;border:0;border-radius:18px;font-size:18px;font-weight:800;color:#001a0e;background:linear-gradient(135deg,var(--g),#00d17a);position:relative;overflow:hidden}
+.dlb:before{content:"";position:absolute;inset:0;width:calc(var(--p)*1%);background:rgba(255,255,255,.35)}
+.dlb span{position:relative}
+.est{color:var(--mut);font-size:14px}.est b{color:var(--tx)}
+.feat{display:grid;grid-template-columns:repeat(auto-fit,minmax(230px,1fr));gap:14px;margin-top:26px}
+.feat .card{padding:22px}.feat h4{color:var(--g);margin-bottom:8px;font-size:18px}.feat p{color:var(--mut);font-size:14px;line-height:1.7}
+footer{text-align:center;color:var(--mut);font-size:12px;padding:20px}
+#toast{position:fixed;bottom:calc(20px + env(safe-area-inset-bottom,0px));left:50%;transform:translate(-50%,120px);background:#0b1f16;border:1px solid var(--g);color:var(--tx);padding:12px 20px;border-radius:14px;transition:.4s;z-index:9;max-width:90vw;font-size:14px}
+#toast.on{transform:translate(-50%,0)}
+@media(max-width:560px){.times{grid-template-columns:1fr 1fr}.len{grid-column:1/3;order:-1}.go{padding:0 16px}}
+@media (prefers-reduced-motion:reduce){*{animation:none!important}}
+</style>
+</head>
+<body>
+<canvas id="bg"></canvas>
+<header>
+  <div class="logo">ZYN<i>K</i></div>
+  <div class="pill"><b>●</b> سرعة فائقة · جودة حتى 8K</div>
+</header>
+<main>
+  <section class="hero">
+    <h1>حمّل <span>أي صوت وأي فيديو</span><br>بالثانية الي تحب</h1>
+    <p>ألصق الرابط من يوتيوب، فيسبوك، تيك توك أو أي منصة، واختر الدقيقة اللي تحتاجها فقط من فيديو طويل.</p>
+  </section>
+
+  <section class="card" id="cons">
+    <div class="bar">
+      <input id="url" placeholder="https://youtube.com/watch?v=..." autocomplete="off" spellcheck="false">
+      <button class="go" id="an">حلّل</button>
+    </div>
+    <div class="plats" id="plats"></div>
+
+    <div id="studio">
+      <div class="meta">
+        <div class="thumb" id="ico">▶</div>
+        <div><h3 id="ttl"></h3><small id="sub"></small></div>
+      </div>
+      <div class="wave"><canvas id="wv"></canvas></div>
+      <div class="times">
+        <div><label>من</label><input id="ia" value="10:00"></div>
+        <div class="len"><b id="ln">01:00</b><small>مدة المقطع</small></div>
+        <div><label>إلى</label><input id="ib" value="11:00"></div>
+      </div>
+      <div class="row"><div class="seg" id="mode"><button data-m="a" class="on">🎧 صوت</button><button data-m="v">🎬 فيديو</button></div></div>
+      <div class="row" id="qs"></div>
+      <div class="dl">
+        <button class="dlb" id="dl" style="--p:0"><span id="dlt">⬇ حمّل المقطع</span></button>
+        <div class="est">الحجم التقريبي: <b id="sz">—</b></div>
+      </div>
+    </div>
+  </section>
+
+  <section class="feat">
+    <div class="card"><h4>✂ قصّ بالثانية</h4><p>فيديو من 50 دقيقة؟ خذ منه دقيقة وحدة، يتم القص قبل التحميل فلا تضيع وقتك ولا حجمك.</p></div>
+    <div class="card"><h4>⚡ سرعة خارقة</h4><p>معالجة متوازية للمقاطع، تحميل في ثوانٍ مهما كانت المنصة.</p></div>
+    <div class="card"><h4>💎 جودة عالية جداً</h4><p>من MP3 320 إلى FLAC، ومن 720p إلى 8K بدون ضغط إضافي.</p></div>
+  </section>
+</main>
+<footer>ZYNK © 2126 — حمّل فقط المحتوى الذي تملك حقوقه أو المسموح به.</footer>
+<div id="toast"></div>
+
+<script>
+/* ===== إعداد: ضع هنا رابط الـ API الخاص بك (الباك-إند) لتفعيل التحميل الحقيقي ===== */
+const API = ""; // مثال: "https://api.yoursite.com/clip" — يستقبل {url,start,end,format,quality}
+
+const $ = s => document.querySelector(s), $$ = s => [...document.querySelectorAll(s)];
+const fmt = t => { t = Math.max(0, Math.round(t)); const h = t / 3600 | 0, m = (t % 3600) / 60 | 0, s = t % 60, p = n => String(n).padStart(2, "0"); return (h ? h + ":" : "") + p(m) + ":" + p(s) };
+const parse = v => { const a = v.trim().split(":").map(Number); if (a.some(isNaN)) return NaN; return a.reduce((x, y) => x * 60 + y, 0) };
+const toast = m => { const t = $("#toast"); t.textContent = m; t.classList.add("on"); clearTimeout(toast.i); toast.i = setTimeout(() => t.classList.remove("on"), 3200) };
+
+/* ---------- المنصات ---------- */
+const PL = [["YouTube", /youtu\.?be/], ["Facebook", /facebook|fb\.watch/], ["TikTok", /tiktok/], ["Instagram", /instagram/], ["X / Twitter", /twitter|x\.com/], ["SoundCloud", /soundcloud/], ["Vimeo", /vimeo/], ["+1000 منصة", /^$/]];
+$("#plats").innerHTML = PL.map(p => `<span class="plat">${p[0]}</span>`).join("");
+function detect() { const v = $("#url").value; const el = $$(".plat"); el.forEach((e, i) => e.classList.toggle("on", i < PL.length - 1 && PL[i][1].test(v))); return PL.findIndex(p => p[1].test(v) && p[0] !== "+1000 منصة") }
+$("#url").addEventListener("input", detect);
+
+/* ---------- الحالة ---------- */
+const S = { dur: 3000, a: 600, b: 660, mode: "a", q: 1, peaks: [] };
+const QS = { a: [["MP3 128", 16], ["MP3 320", 40], ["FLAC", 120], ["WAV", 176]], v: [["720p", 250], ["1080p", 600], ["4K", 2600], ["8K", 9000]] };
+function renderQ() { $("#qs").innerHTML = QS[S.mode].map((q, i) => `<button class="q ${i == S.q ? "on" : ""}" data-i="${i}">${q[0]}</button>`).join(""); $$(".q").forEach(b => b.onclick = () => { S.q = +b.dataset.i; renderQ(); upd() }) }
+$$("#mode button").forEach(b => b.onclick = () => { S.mode = b.dataset.m; S.q = 1; $$("#mode button").forEach(x => x.classList.toggle("on", x == b)); renderQ(); upd() });
+
+/* ---------- الموجة التفاعلية (Canvas) ---------- */
+const cv = $("#wv"), cx = cv.getContext("2d");
+function mkPeaks(seed) { S.peaks = Array.from({ length: 240 }, (_, i) => { const x = i / 240; return Math.min(1, .15 + Math.abs(Math.sin(x * 38 + seed) * .35 + Math.sin(x * 11 + seed * 2) * .3 + Math.sin(x * 97) * .15) + (Math.sin(x * 5 + seed) > .6 ? .2 : 0)) }) }
+function draw() {
+  const r = cv.getBoundingClientRect(), d = devicePixelRatio || 1; cv.width = r.width * d; cv.height = r.height * d; cx.setTransform(d, 0, 0, d, 0, 0);
+  const W = r.width, H = r.height, n = S.peaks.length, bw = W / n, xa = S.a / S.dur * W, xb = S.b / S.dur * W;
+  const g = cx.createLinearGradient(0, 0, 0, H); g.addColorStop(0, "#00ff9d"); g.addColorStop(1, "#00c2ff");
+  S.peaks.forEach((p, i) => { const x = i * bw, h = p * H * .8, on = x + bw >= xa && x <= xb; cx.fillStyle = on ? g : "rgba(127,165,149,.28)"; cx.beginPath(); cx.roundRect(x + 1, (H - h) / 2, Math.max(1, bw - 2), h, 2); cx.fill() });
+  cx.fillStyle = "rgba(0,255,157,.08)"; cx.fillRect(xa, 0, xb - xa, H);
+  [xa, xb].forEach(x => { cx.fillStyle = "#00ff9d"; cx.shadowColor = "#00ff9d"; cx.shadowBlur = 14; cx.fillRect(x - 1.5, 0, 3, H); cx.beginPath(); cx.roundRect(x - 8, H / 2 - 18, 16, 36, 8); cx.fill(); cx.shadowBlur = 0; cx.fillStyle = "#001a0e"; cx.fillRect(x - 1, H / 2 - 8, 2, 16) });
+}
+let drag = null;
+cv.addEventListener("pointerdown", e => {
+  const r = cv.getBoundingClientRect(), W = r.width, x = e.clientX - r.left, xa = S.a / S.dur * W, xb = S.b / S.dur * W;
+  if (Math.abs(x - xa) < 16) drag = { t: "a" }; else if (Math.abs(x - xb) < 16) drag = { t: "b" };
+  else if (x > xa && x < xb) drag = { t: "m", off: x / W * S.dur - S.a }; else drag = { t: Math.abs(x - xa) < Math.abs(x - xb) ? "a" : "b" };
+  cv.setPointerCapture(e.pointerId); move(e);
+});
+cv.addEventListener("pointermove", e => drag && move(e));
+cv.addEventListener("pointerup", () => drag = null);
+function move(e) {
+  const r = cv.getBoundingClientRect(), t = Math.max(0, Math.min(S.dur, (e.clientX - r.left) / r.width * S.dur)), L = S.b - S.a;
+  if (drag.t == "a") S.a = Math.min(t, S.b - 1); else if (drag.t == "b") S.b = Math.max(t, S.a + 1);
+  else { S.a = Math.max(0, Math.min(S.dur - L, t - drag.off)); S.b = S.a + L }
+  S.a = Math.round(S.a); S.b = Math.round(S.b); upd();
+}
+function upd() {
+  $("#ia").value = fmt(S.a); $("#ib").value = fmt(S.b); $("#ln").textContent = fmt(S.b - S.a);
+  const kb = QS[S.mode][S.q][1] * (S.b - S.a), mb = kb / 1024; $("#sz").textContent = mb > 1024 ? (mb / 1024).toFixed(1) + " GB" : mb.toFixed(1) + " MB"; draw();
+}
+["ia", "ib"].forEach(id => $("#" + id).addEventListener("change", () => { let a = parse($("#ia").value), b = parse($("#ib").value); if (isNaN(a) || isNaN(b)) return upd(); a = Math.max(0, Math.min(a, S.dur - 1)); b = Math.max(a + 1, Math.min(b, S.dur)); S.a = a; S.b = b; upd() }));
+addEventListener("resize", () => $("#studio").classList.contains("show") && draw());
+
+/* ---------- تحليل الرابط ---------- */
+$("#an").onclick = async () => {
+  const v = $("#url").value.trim(); if (!/^https?:\/\/.+\..+/.test(v)) return toast("ألصق رابطاً صحيحاً أولاً");
+  const i = detect(), name = i > -1 ? PL[i][0] : "رابط";
+  const b = $("#an"); b.textContent = "…جارٍ التحليل"; await new Promise(r => setTimeout(r, 900)); b.textContent = "حلّل";
+  S.dur = 3000; S.a = 600; S.b = 660; mkPeaks(v.length % 9 + 1);
+  $("#ttl").textContent = "فيديو تجريبي طويل"; $("#sub").textContent = name + " · المدة " + fmt(S.dur);
+  $("#studio").classList.add("show"); renderQ(); upd(); $("#studio").scrollIntoView({ behavior: "smooth", block: "nearest" });
+};
+$("#url").addEventListener("keydown", e => e.key == "Enter" && $("#an").click());
+
+/* ---------- التحميل ---------- */
+$("#dl").onclick = async () => {
+  const btn = $("#dl"), t = $("#dlt"); let p = 0; t.textContent = "…جارٍ القص والمعالجة";
+  if (API) { try { const r = await fetch(API, { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify({ url: $("#url").value, start: S.a, end: S.b, format: S.mode, quality: QS[S.mode][S.q][0] }) }); const bl = await r.blob(); const a = document.createElement("a"); a.href = URL.createObjectURL(bl); a.download = "zynk-clip"; a.click() } catch (e) { toast("تعذّر الاتصال بالـ API") } t.textContent = "⬇ حمّل المقطع"; return }
+  await new Promise(res => { const iv = setInterval(() => { p += 2 + Math.random() * 5; btn.style.setProperty("--p", Math.min(p, 100)); if (p >= 100) { clearInterval(iv); res() } }, 60) });
+  t.textContent = "✔ جاهز"; toast("وضع تجريبي: اربط الـ API في أعلى الكود لتحميل حقيقي"); setTimeout(() => { btn.style.setProperty("--p", 0); t.textContent = "⬇ حمّل المقطع" }, 2500);
+};
+
+/* ---------- خلفية حيّة: موجات تتفاعل مع المؤشر ---------- */
+const bg = $("#bg"), bx = bg.getContext("2d"); let mx = .5, my = .5, T = 0;
+addEventListener("pointermove", e => { mx = e.clientX / innerWidth; my = e.clientY / innerHeight; document.querySelectorAll(".card").forEach(c => { const r = c.getBoundingClientRect(); c.style.setProperty("--mx", e.clientX - r.left + "px"); c.style.setProperty("--my", e.clientY - r.top + "px") }) });
+function loop() {
+  const d = Math.min(devicePixelRatio || 1, 2), W = bg.width = innerWidth * d, H = bg.height = innerHeight * d; T += .008;
+  bx.clearRect(0, 0, W, H); bx.lineWidth = 1.2 * d;
+  for (let k = 0; k < 14; k++) {
+    bx.beginPath(); bx.strokeStyle = `rgba(0,255,157,${.05 + k * .008})`;
+    for (let x = 0; x <= W; x += 12 * d) { const nx = x / W, a = Math.exp(-Math.pow(nx - mx, 2) * 18) * 60 * d * (my + .3), y = H * .72 + k * 14 * d + Math.sin(nx * 6 + T + k * .35) * 26 * d + Math.sin(nx * 15 - T * 1.6 + k) * 8 * d - a * Math.sin(T * 2 + k * .3); x ? bx.lineTo(x, y) : bx.moveTo(x, y) }
+    bx.stroke()
+  }
+  requestAnimationFrame(loop)
+}
+if (!matchMedia("(prefers-reduced-motion:reduce)").matches) loop();
+</script>
+</body>
+</html>
